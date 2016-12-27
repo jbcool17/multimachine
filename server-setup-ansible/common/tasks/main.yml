@@ -16,3 +16,12 @@
        - htop
        - vim
        - git
+       - build-essential
+       - libssl-dev
+  tags:
+    - packages
+
+- name: Install NVM
+  shell: 'curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.1/install.sh | bash'
+  tags:
+    - nvm
