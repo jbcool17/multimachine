@@ -1,0 +1,12 @@
+---
+
+- name: Configure servers with ruby support for single user
+  hosts: all
+  user: 'vagrant'
+
+  roles:
+    - { role: rvm_io.ruby,
+        tags: ruby,
+        rvm1_rubies: ['ruby-2.3.1', 'ruby-2.3.0'],
+        rvm1_user: 'vagrant'
+      }
