@@ -21,9 +21,16 @@ Vagrant.configure("2") do |config|
       subconfig.vm.network :private_network, ip: "192.168.56.#{i + 100}"
     end
   end
-  
-  # Install avahi on all machines
-  config.vm.provision "shell", inline: <<-SHELL
-    apt-get install -y avahi-daemon libnss-mdns
-  SHELL
+
+  # Install avahi on all machines & copy ssh key
+  config.vm.provision "shell" do |s|
+    ssh_pub_key = File.readlines("#{Dir.home}/.ssh/id_rsa.pub").first.strip
+    s.inline = <<-SHELL
+      apt-get install -y avahi-daemon libnss-mdns
+      echo "<==== Copying KEYS ====>"
+      echo #{ssh_pub_key} >> /home/vagrant/.ssh/authorized_keys
+      echo #{ssh_pub_key} >> /root/.ssh/authorized_keys
+      # known hosts
+    SHELL
+  end
 end
