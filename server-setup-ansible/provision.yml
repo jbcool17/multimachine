@@ -6,7 +6,27 @@
   vars:
     rvm1_rubies: ['ruby-2.3.1', 'ruby-2.3.0']
     rvm1_user: 'vagrant'
-
   roles:
     - rvm_io.ruby
     - common
+  tags:
+    - init-setup
+
+- name: Setup Nginx on Staging
+  hosts: staging
+  user: 'vagrant'
+  sudo: yes
+  roles:
+    - abtris.nginx-passenger
+    - ANXS.postgresql
+  tags:
+    - staging
+
+- name: Setup Nginx on Production
+  hosts: production
+  user: 'vagrant'
+  sudo: yes
+  roles:
+    - abtris.nginx-passenger
+  tags:
+    - production
