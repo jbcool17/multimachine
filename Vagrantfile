@@ -12,6 +12,7 @@ Vagrant.configure("2") do |config|
     subconfig.vm.box = BOX_IMAGE
     subconfig.vm.hostname = "development"
     subconfig.vm.network :private_network, ip: "192.168.56.100"
+    config.vm.synced_folder "/Users/webdev/Projects/vagrant/MultiMachines/Projects", "/home/vagrant/Projects", type: "nfs"
   end
 
   (1..NODE_COUNT).each do |i|
