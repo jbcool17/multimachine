@@ -1,21 +1,24 @@
 # multimachines
-> setup web developer environments - development / staging server / production server
+> setup web developer environments - development / staging server / production server - Ruby
 
 - Python(2.7) - [Pyenv](https://github.com/yyuu/pyenv)
-- Ansible - [Insall Docs](http://docs.ansible.com/ansible/intro_installation.html)
+- Ansible - [Install Docs](http://docs.ansible.com/ansible/intro_installation.html)
   - ```pip install ansible```
 - [vagrant](https://www.vagrantup.com/)
 
 ## setup
 ```
+# Start up vagrant machines
 $ vagrant up
+
+# Run initial setup of machines
 $ cd server-setup-anisble
 $ ansible-playbook provision.yml
 ```
 
 ## other
 ```
-# Run command on remote machines
+# Run command on all remote machines
 $ ansible all -a "sudo apt-get update" -u vagrant
 
 # Install plugin from current project
