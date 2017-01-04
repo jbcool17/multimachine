@@ -28,5 +28,17 @@
   sudo: yes
   roles:
     - abtris.nginx-passenger
+    - ANXS.postgresql
   tags:
     - production
+
+- name: Install rvm for deploy user
+  hosts: staging
+  user: 'vagrant'
+  vars:
+    rvm1_rubies: ['ruby-2.3.1']
+    rvm1_user: 'deploy'
+  roles:
+    - rvm_io.ruby
+  tags:
+    - deploy-rvm
