@@ -9,6 +9,7 @@
 > setup web developer environments - development / staging server / production server - Ruby
 
 - Python(2.7) - [Pyenv](https://github.com/yyuu/pyenv)
+  - good for managing python versions
 - Ansible - [Install Docs](http://docs.ansible.com/ansible/intro_installation.html)
   - ```pip install ansible```
 - [vagrant](https://www.vagrantup.com/)
@@ -35,9 +36,6 @@ $ ansible-galaxy install --roles-path . <PROJECT NAME>
 $ ansible-playbook provision.yml --tags "configuration,packages"
 ```
 
-This project uses the Rails 5 API setting for the backend and a jekyll site generator to compile various mini sites using JS FrontEnd Frameworks(React) via custom scripts. They are currently hosted from github.io: [railsapijwt-frontend](https://jbcool17.github.io/railsapijwt-frontend/). The purpose of this is to learn about APIs and Javascript Front-End Frameworks.
-- Frontend repo is located at: [Frontend Repo](https://github.com/jbcool17/railsapijwt-frontend)
-
 ## Table of Contents
 
 - [Development](#development)
@@ -57,13 +55,10 @@ This project uses the Rails 5 API setting for the backend and a jekyll site gene
 ```
 
 ## Specs
-- Ruby v2.3.1 / Rails v5.0.0.1
-- JWT
-- Database - Development / Sqlite3 - Production / Postgresql
+- TODO
 
 ## Testing
-- Rspec
-- more to come
+- TODO
 
 ## License
 
