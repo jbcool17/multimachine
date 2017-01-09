@@ -13,7 +13,7 @@
     - init-setup
 
 - name: Setup Deploy User
-- hosts: servers
+  hosts: servers
   user: deploy
   vars:
     # created with:
