@@ -12,6 +12,18 @@
   tags:
     - init-setup
 
+- name: Setup Deploy User
+- hosts: servers
+  user: deploy
+  vars:
+    # created with:
+    # python -c 'import crypt; print crypt.crypt("This is my Password", "$1$SomeSalt$")'
+    password: deploy # change this to something better.
+  tasks:
+    - user: name=deploy password={{password}}
+  tags:
+    - deploy-user
+
 - name: Setup Staging & Production Servers
   hosts: servers
   user: 'vagrant'
