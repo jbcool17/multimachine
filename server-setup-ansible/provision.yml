@@ -4,7 +4,7 @@
   hosts: setup
   user: 'vagrant'
   vars:
-    rvm1_rubies: ['ruby-2.3.1', 'ruby-2.3.0']
+    rvm1_rubies: ['ruby-2.3.1']
     rvm1_user: 'vagrant'
   roles:
     - rvm_io.ruby
@@ -12,33 +12,16 @@
   tags:
     - init-setup
 
-- name: Setup Nginx on Staging
-  hosts: staging
+- name: Setup Staging & Production Servers
+  hosts: servers
   user: 'vagrant'
   sudo: yes
-  roles:
-    - abtris.nginx-passenger
-    - ANXS.postgresql
-  tags:
-    - staging
-
-- name: Setup Nginx on Production
-  hosts: production
-  user: 'vagrant'
-  sudo: yes
-  roles:
-    - abtris.nginx-passenger
-    - ANXS.postgresql
-  tags:
-    - production
-
-- name: Install rvm for deploy user
-  hosts: staging
-  user: 'vagrant'
   vars:
     rvm1_rubies: ['ruby-2.3.1']
     rvm1_user: 'deploy'
   roles:
+    - abtris.nginx-passenger
+    - ANXS.postgresql
     - rvm_io.ruby
   tags:
-    - deploy-rvm
+    - servers
