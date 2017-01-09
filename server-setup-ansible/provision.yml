@@ -14,7 +14,7 @@
 
 - name: Setup Deploy User
   hosts: servers
-  user: deploy
+  user: vagrant
   vars:
     # created with:
     # python -c 'import crypt; print crypt.crypt("This is my Password", "$1$SomeSalt$")'
