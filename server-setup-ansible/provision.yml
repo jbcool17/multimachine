@@ -14,13 +14,13 @@
 
 - name: Setup Deploy User
   hosts: servers
-  user: vagrant
+  user: root
   vars:
-    # created with:
-    # python -c 'import crypt; print crypt.crypt("This is my Password", "$1$SomeSalt$")'
-    password: deploy # change this to something better.
+    new_user: deploy
+    new_password: deploy # This Pass in not secure, please update
   tasks:
-    - user: name=deploy password={{password}}
+    - name: Creating user "{{ new_user }}" for deploying
+      user: name={{ new_user }} password={{ new_password |password_hash('sha512') }} append=yes shell=/bin/bash
   tags:
     - deploy-user
 
