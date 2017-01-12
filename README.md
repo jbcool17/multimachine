@@ -12,11 +12,13 @@
   - good for managing python versions
 - Ansible - [Install Docs](http://docs.ansible.com/ansible/intro_installation.html)
   - ```pip install ansible```
+  - ```pip install passlib```
 - [vagrant](https://www.vagrantup.com/)
 
 ## setup
 ```
 # Start up vagrant machines
+$ cd RubyRails-Setup
 $ vagrant up
 
 # Run initial setup of machines
