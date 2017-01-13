@@ -23,5 +23,4 @@ nginx:
   ports:
     - 8080:80
   volumes:
-    - ./X:/X
-  restart: always
+    - ./site:/site
