@@ -11,8 +11,10 @@
     - common
   tags:
     - init-setup
-
-- name: Setup Deploy User
+    
+# --------------------------------------------
+# SERVERS
+- name: Setup Deploy User on Servers
   hosts: servers
   user: root
   vars:
@@ -24,6 +26,8 @@
   tags:
     - deploy-user
 
+# --------------------------------------------
+# SERVERS - RVM / NGINX
 - name: Setup Staging & Production Servers
   hosts: servers
   user: 'vagrant'
@@ -33,7 +37,7 @@
     rvm1_user: 'deploy'
   roles:
     - abtris.nginx-passenger
-    - ANXS.postgresql
     - rvm_io.ruby
+    # - ANXS.postgresql
   tags:
     - servers
