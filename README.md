@@ -18,10 +18,10 @@
 ## environments
 - RubyRails-Setup
   - Sets up 3 machines(development, staging, production)
-  - The staging/production boxes are just for testing and demostration, once you create your own remote versions IP Addresses can be changed via the 'hosts' file in 'server-setup-anisble' folder
+  - The staging/production boxes are just for testing and demonstration, once you create your own remote versions IP Addresses can be changed via the 'hosts' file in 'server-setup-anisble' folder
   - development uses rvm to handle rubies
   - staging/production are setup with Nginx/Passenger
-  - Postgres Databases are currently setup
+  - docker installed
   - Trying to integrate docker as well
 - Docker-Setup - Work In Progress
   - create and deploy static site via Nginx Container
