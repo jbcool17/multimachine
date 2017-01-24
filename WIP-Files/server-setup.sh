@@ -1,42 +1,28 @@
 DEPLOY_USER=$1
+APP_NAME=$2
+# Setting up a user account : As sudo user - 'root/vagrant'
 
-# Setting up a user account
 # Add user account
-sudo adduser $DEPLOY_USER &&
+sudo adduser $DEPLOY_USER
+sudo passwd $DEPLOY_USER
 
 # Setup initial SSH key
-sudo mkdir -p ~$DEPLOY_USER/.ssh &&
-sudo sh -c "cat $HOME/.ssh/authorized_keys >> ~$DEPLOY_USER/.ssh/authorized_keys" && \
-sudo chown -R $DEPLOY_USER: ~$DEPLOY_USER/.ssh &&
-sudo chmod 700 ~$DEPLOY_USER/.ssh &&
+sudo mkdir -p ~$DEPLOY_USER/.ssh
+sudo sh -c "cat $HOME/.ssh/authorized_keys >> ~$DEPLOY_USER/.ssh/authorized_keys"
+sudo chown -R $DEPLOY_USER: ~$DEPLOY_USER/.ssh
+sudo chmod 700 ~$DEPLOY_USER/.ssh
 sudo sh -c "chmod 600 ~$DEPLOY_USER/.ssh/*"
 
-# Setting up a basic directory structure
-APP_NAME=$2
-sudo mkdir -p /var/www/$APP_NAME/shared
-sudo chown $DEPLOY_USER: /var/www/$APP_NAME /var/www/$APP_NAME/shared
+# Setting up a site directory structure
+sudo mkdir -p /var/www/$APP_NAME
+sudo chown $DEPLOY_USER: /var/www/$APP_NAME
 
-# Create Config Files
-sudo mkdir -p /var/www/$APP_NAME/shared/config
-touch /var/www/$APP_NAME/shared/config/database.yml &&
+# Create Config Files - Login as Deploy User # Permissions
+sudo -u deploy -H bash -l
+mkdir -p /var/www/$APP_NAME/shared/config
+touch /var/www/$APP_NAME/shared/config/database.yml
 touch /var/www/$APP_NAME/shared/config/secrets.yml
-
-# Permissions
-sudo chown -R $DEPLOY_USER: /var/www/$APP_NAME/shared/config/secrets.yml
-/shared/config
-chmod 600 /var/www/$APP_NAME/shared/config/secrets.yml
-/shared/config/database.yml
-chmod 600 /var/www/$APP_NAME/shared/config/secrets.yml
-/shared/config/secrets.yml
+chmod 600 /var/www/$APP_NAME/shared/config/secrets.yml /var/www/$APP_NAME/shared/config/database.yml
 
 echo ""
 echo "Script has run."
-echo "Fill in those config files."
-echo "database.yml / secrets.yml / nginx"
-
-
-sudo mkdir -p ~deploy/.ssh &&
-sudo sh -c "cat $HOME/.ssh/authorized_keys >> ~deploy/.ssh/authorized_keys" && \
-sudo chown -R deploy: ~deploy/.ssh &&
-sudo chmod 700 ~deploy/.ssh &&
-sudo sh -c "chmod 600 ~deploy/.ssh/*"

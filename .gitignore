@@ -2,3 +2,8 @@
 .vagrant
 Projects/*
 .retry
+
+notes.txt
+*.mpg
+*.mov
+*.mp4
