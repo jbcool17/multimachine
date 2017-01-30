@@ -7,3 +7,4 @@ notes.txt
 *.mpg
 *.mov
 *.mp4
+.env

@@ -1,0 +1,19 @@
+GEM
+  specs:
+    colorize (0.8.1)
+    dotenv (2.1.1)
+    net-scp (1.2.1)
+      net-ssh (>= 2.6.5)
+    net-ssh (4.0.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  colorize
+  dotenv
+  net-scp
+  net-ssh
+
+BUNDLED WITH
+   1.13.7
