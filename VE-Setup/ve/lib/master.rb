@@ -1,8 +1,9 @@
 require 'colorize'
-require_relative 'utilities/utilities'
-require_relative 'encode_nodes'
 require 'net/ssh'
 require 'net/scp'
+require_relative 'utilities/utilities'
+require_relative 'encode_nodes'
+
 
 module VE
   class Master
@@ -26,7 +27,7 @@ module VE
   		Net::SCP.upload!(e[:ip], e[:user], local_path, remote_path)
   	end
 
-  	def command(name, command)
+  	def run_command(name, command)
   		e = EncodeNodes.encoders[name.to_sym]
   		Net::SSH.start(e[:ip], e[:user], :password => e[:password]) do |ssh|
         channel = ssh.open_channel do |ch|
@@ -81,6 +82,14 @@ module VE
 
   	end
 
+    def check_processes(process_name)
+      connect_to 'master', "pgrep -f #{process_name}"
+      # kill -9 `pgrep -f keyword`
+      @status.split(' ').each do |pid|
+        run_command 'master', "ps h #{pid}"
+      end
+    end
+
     private
 
     def connect_to_all(command)
@@ -88,7 +97,8 @@ module VE
   			VE::Utilities.message "Connecting to #{e[1][:ip]}...".blue
   			Net::SSH.start(e[1][:ip], e[1][:user], :password => e[1][:pass]) do |ssh|
   				VE::Utilities.message "Logged in to #{ssh.exec!('hostname')}".blue
-  				VE::Utilities.message "#{ssh.exec!(command)}".green
+          @status = ssh.exec!(command)
+  				VE::Utilities.message "#{@status}".green
   				VE::Utilities.message "Logging out of #{ssh.exec!('hostname')}".blue
   			end
   		end
@@ -99,7 +109,8 @@ module VE
   		VE::Utilities.message "Connecting to #{e[:ip]}...".blue
   		Net::SSH.start(e[:ip], e[:user], :password => e[:pass]) do |ssh|
   			VE::Utilities.message "Logged in to #{ssh.exec!('hostname')}".blue
-  			VE::Utilities.message "#{ssh.exec!(command)}".green
+          @status = ssh.exec!(command)
+  			VE::Utilities.message "#{@status}".green
   			VE::Utilities.message "Logging out of #{ssh.exec!('hostname')}".blue
   		end
   	end
