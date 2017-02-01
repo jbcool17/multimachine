@@ -1,7 +1,22 @@
-require_relative 'lib/master'
-m = VE::Master.new
-puts "Starting..."
-m.convert 'node1', 'testsrc.mpg', 'testsrc.mov'
+require_relative 'lib/master_control'
+require_relative 'lib/process_manager'
+require_relative 'lib/machines'
+
+puts 'starting'
+VE::Machines.start_all
+VE::Machines.stop_all
+# puts 'stopping'
+# VE::Setup.stop_machines
+# m = VE::MasterControl.new
+# VE::ProcessManager.check_all_docker_processes
+# VE::ProcessManager.check_processes 'docker'
+# puts "Checking Machines..."
+# m.check_machines
+# m.check_machine 'node2'
+# puts "Starting Convert..."
+# m.convert 'node1', 'testsrc.mpg', 'testsrc.mov'
+
+
 puts "Script over"
 # m.transfer_to 'node1', 'testsrc.mpg'
 # m.run_command 'node1', '~/bin/ffmpeg -i input/testsrc.mpg output/testsrc.mov'
