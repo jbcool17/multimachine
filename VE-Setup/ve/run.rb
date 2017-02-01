@@ -1,10 +1,10 @@
 require_relative 'lib/master_control'
 require_relative 'lib/process_manager'
-require_relative 'lib/machines'
+require_relative 'lib/machine_manager'
 
 puts 'starting'
-VE::Machines.start_all
-VE::Machines.stop_all
+VE::MachineManager.start_all
+VE::MachineManager.stop_all
 # puts 'stopping'
 # VE::Setup.stop_machines
 # m = VE::MasterControl.new

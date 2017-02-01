@@ -4,6 +4,7 @@
 - name: ffmpeg_sources
   file: path=/home/vagrant/ffmpeg_sources state=directory
 
+# https://trac.ffmpeg.org/wiki/CompilationGuide/Ubuntu
 - name: yasm
   script: ffmpeg/scripts/yasm.sh
   tags:

@@ -2,7 +2,7 @@ require_relative 'encode_nodes'
 require_relative 'utilities/utilities'
 
 module VE
-  module Machines
+  module MachineManager
   	def self.start_all
       if status
         VE::Utilities.message 'Starting up machines...'
@@ -27,5 +27,12 @@ module VE
       VE::Utilities.message c
       c.empty?
     end
+
+    # start one
+    # stop one
+    # create vagrant file
+    # create encode_nodes file
+    # add node
+    # remove node
   end
 end
