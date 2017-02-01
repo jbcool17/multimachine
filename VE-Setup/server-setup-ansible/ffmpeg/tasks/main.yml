@@ -19,7 +19,27 @@
   tags:
     - x265
 
-- name: x265
+- name: libfdk-aac
   script: ffmpeg/scripts/libfdk-aac.sh
   tags:
-    - x265
+    - libfdk-aac
+
+- name: libmp3lame
+  script: ffmpeg/scripts/libmp3lame.sh
+  tags:
+    - libmp3lame
+
+- name: libopus
+  script: ffmpeg/scripts/libopus.sh
+  tags:
+    - libopus
+
+- name: libvpx
+  script: ffmpeg/scripts/libvpx.sh
+  tags:
+    - libvpx
+
+- name: ffmpeg
+  script: ffmpeg/scripts/ffmpeg.sh
+  tags:
+    - ffmpeg

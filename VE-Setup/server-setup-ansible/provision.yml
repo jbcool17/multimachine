@@ -1,6 +1,6 @@
 ---
 
-- name: Configure servers with ruby support for single user
+- name: Configure nodes with ffmpeg and dependences
   hosts: nodes
   user: 'vagrant'
   roles:
