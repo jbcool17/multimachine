@@ -23,7 +23,10 @@
   - staging/production are setup with Nginx/Passenger
   - docker installed
   - Trying to integrate docker as well
-- Docker-Setup - Work In Progress
+- VE-Setup(**work in progress**)
+  - setting up master and nodes for video encoding/process management
+  - creating MasterControl using Ruby
+- Docker-Setup(**on hold**)
   - create and deploy static site via Nginx Container
 
 ## setup
