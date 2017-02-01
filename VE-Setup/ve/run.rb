@@ -1,3 +1,4 @@
+#master control - console control master console
 require_relative 'lib/master_control'
 require_relative 'lib/process_manager'
 require_relative 'lib/machine_manager'
