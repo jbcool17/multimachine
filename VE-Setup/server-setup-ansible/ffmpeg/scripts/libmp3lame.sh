@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-sudo apt-get install nasm
+sudo apt-get -y install nasm
 cd ~/ffmpeg_sources
 wget http://downloads.sourceforge.net/project/lame/lame/3.99/lame-3.99.5.tar.gz
 tar xzvf lame-3.99.5.tar.gz
