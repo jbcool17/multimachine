@@ -1,0 +1,25 @@
+---
+- name: ffmpeg_build
+  file: path=/home/vagrant/ffmpeg_build state=directory
+- name: ffmpeg_sources
+  file: path=/home/vagrant/ffmpeg_sources state=directory
+
+- name: yasm
+  script: ffmpeg/scripts/yasm.sh
+  tags:
+    - yasm
+
+- name: x264
+  script: ffmpeg/scripts/x264.sh
+  tags:
+    - x264
+
+- name: x265
+  script: ffmpeg/scripts/x265.sh
+  tags:
+    - x265
+
+- name: x265
+  script: ffmpeg/scripts/libfdk-aac.sh
+  tags:
+    - x265

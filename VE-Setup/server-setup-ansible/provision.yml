@@ -1,0 +1,10 @@
+---
+
+- name: Configure servers with ruby support for single user
+  hosts: nodes
+  user: 'vagrant'
+  roles:
+    - ffmpeg
+    # - common
+  tags:
+    - init-setup
