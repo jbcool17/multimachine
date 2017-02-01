@@ -1,8 +1,13 @@
 require_relative 'lib/master'
 m = VE::Master.new
 puts "Starting..."
-m.transfer 'master'
-m.command 'master', '~/bin/ffmpeg -i testsrc1.mpg testsrc1.mov'
+m.convert 'node1', 'testsrc.mpg', 'testsrc.mov'
+puts "Script over"
+# m.transfer_to 'node1', 'testsrc.mpg'
+# m.run_command 'node1', '~/bin/ffmpeg -i input/testsrc.mpg output/testsrc.mov'
+# m.transfer_to_output 'node1'
+# m.run_command 'node1', 'rm ~/output/testsrc.mov'
+
 
 # SPLIT JOB
 # Get duration

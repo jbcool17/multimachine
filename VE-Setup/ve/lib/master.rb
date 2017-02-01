@@ -1,6 +1,7 @@
-require 'colorize'
 require 'net/ssh'
 require 'net/scp'
+require 'colorize'
+require 'ruby-progressbar'
 require_relative 'utilities/utilities'
 require_relative 'encode_nodes'
 
@@ -14,6 +15,13 @@ module VE
   		@status = ''
   	end
 
+    def convert(name, input_file, output_file)
+      transfer_to name, input_file
+      run_command name, "~/bin/ffmpeg -ss 00:00:00.000 -i input/#{input_file} -t 30 output/#{output_file}"
+      transfer_to_output name, "output/#{output_file}"
+      run_command name, "rm ~/output/#{output_file}"
+    end
+
   	def check_machines
   		connect_to_all 'uname -a'
   	end
@@ -22,9 +30,21 @@ module VE
   		connect_to name, 'uname -a'
   	end
 
-    def transfer(name, local_path='testsrc1.mpg', remote_path='/home/vagrant')
+    def transfer_to(name, local_path='testsrc1.mpg', remote_path='/home/vagrant/input')
   		e = EncodeNodes.encoders[name.to_sym]
-  		Net::SCP.upload!(e[:ip], e[:user], local_path, remote_path)
+      progressbar = ProgressBar.create(title: 'TRANSFER ===>', length: 100, format: "%t |%B| %P%%",:progress_mark  => '#')
+  		Net::SCP.upload!(e[:ip], e[:user], local_path, remote_path) do |ch, name, sent, total|
+        progressbar.progress = sent.fdiv(total) * 100
+      end
+  	end
+
+    def transfer_to_output(name, remote_path='output/testsrc.mov', local_path="#{`pwd`.strip}/output/testsrc.mov")
+  		e = EncodeNodes.encoders[name.to_sym]
+      progressbar = ProgressBar.create(title: 'TRANSFER ===>', length: 100, format: "%t: |%B| %P%%", :progress_mark  => '#')
+  		Net::SCP.download!(e[:ip], e[:user], remote_path, local_path) do |ch, name, sent, total|
+        progressbar.progress = sent.fdiv(total) * 100
+      end
+
   	end
 
   	def run_command(name, command)
@@ -44,7 +64,7 @@ module VE
               $stderr.print data
             end
 
-            ch.on_close { puts "done!" }
+            # ch.on_close { puts "done!" }
           end
         end
 
