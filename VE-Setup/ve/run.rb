@@ -4,18 +4,28 @@ require_relative 'lib/process_manager'
 require_relative 'lib/machine_manager'
 
 puts 'starting'
-VE::MachineManager.start_all
-VE::MachineManager.stop_all
+mm = RelationshipOfCommand::MachineManager.new
+# mm.start_all
+# mm.reload_all
+# VE::MachineManager.stop_all
 # puts 'stopping'
 # VE::Setup.stop_machines
-# m = VE::MasterControl.new
+
 # VE::ProcessManager.check_all_docker_processes
-# VE::ProcessManager.check_processes 'docker'
+# VE::Utilities.connect_to 'node1', 'ps 1868 7882 7952 9711 9781'
+# pm = RelationshipOfCommand::ProcessManager.new
+# pm.check_for_processes 'ffmpeg'
+# VE::Utilities.connect_to_all "df -h"
+# VE::Utilities.connect_to 'node1', "pgrep -f docker"
+
+m = RelationshipOfCommand::MasterControl.new
 # puts "Checking Machines..."
 # m.check_machines
 # m.check_machine 'node2'
 # puts "Starting Convert..."
+m.running_jobs
 # m.convert 'node1', 'testsrc.mpg', 'testsrc.mov'
+
 
 
 puts "Script over"

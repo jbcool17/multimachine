@@ -1,13 +1,16 @@
+require_relative 'computer'
 require 'dotenv'
 Dotenv.load
 
-module EncodeNodes
-	def self.encoders
-	return {
-		master: {ip: ENV['MASTER_IP'], user: ENV['MASTER_USER'], pass: ENV['MASTER_PASS']},
-		node1: {ip: "192.168.56.111", user:'vagrant', pass:'vagrant'},
-		node2: {ip: "192.168.56.112", user:'vagrant', pass:'vagrant'},
-		node3: {ip: "192.168.56.113", user:'vagrant', pass:'vagrant'}
-		}
+module RelationshipOfCommand
+	module EncodeNodes
+		def encoders
+			m = RelationshipOfCommand::Master.new(ENV['MASTER_IP'], ENV['MASTER_USER'], ENV['MASTER_PASS'])
+			n1 = RelationshipOfCommand::Node.new("192.168.56.111", 'vagrant', 'vagrant')
+			n2 = RelationshipOfCommand::Node.new("192.168.56.112", 'vagrant', 'vagrant')
+			n3 = RelationshipOfCommand::Node.new("192.168.56.113", 'vagrant', 'vagrant')
+
+			return { master: m, node1: n1, node2: n2, node3: n3 }
+		end
 	end
 end

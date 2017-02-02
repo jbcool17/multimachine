@@ -1,30 +1,36 @@
 require_relative 'encode_nodes'
 require_relative 'utilities/utilities'
 
-module VE
-  module MachineManager
-  	def self.start_all
+module RelationshipOfCommand
+  class MachineManager
+    include RelationshipOfCommand::Utilities
+
+  	def start_all
       if status
-        VE::Utilities.message 'Starting up machines...'
+        self.message 'Starting up machines...'
         `cd ../ && vagrant up`
       else
-        VE::Utilities.message "Vagrant Machines are already running..."
+        self.message "Vagrant Machines are already running..."
       end
     end
 
-    def self.stop_all
+    def reload_all
+      `cd ../ && vagrant reload`
+    end
+
+    def stop_all
       if !status
-        VE::Utilities.message 'Stopping machines...'
+        self.message 'Stopping machines...'
         `cd ../ && vagrant halt`
       else
-        VE::Utilities.message "Vagrant Machines are already shutdown..."
+        self.message "Vagrant Machines are already shutdown..."
       end
     end
 
-    def self.status
+    def status
       c = `cd ../ && vagrant status | grep running`
-      VE::Utilities.message 'Vagrant STATUS:'
-      VE::Utilities.message c
+      self.message 'Vagrant STATUS:'
+      self.message c
       c.empty?
     end
 

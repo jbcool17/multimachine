@@ -1,56 +1,76 @@
 require 'net/ssh'
 require 'net/scp'
+require 'colorize'
+require_relative '../encode_nodes'
 
-module VE
+module RelationshipOfCommand
   module Utilities
-    def self.message(m)
-      puts "===> #{m}"
+    include RelationshipOfCommand::EncodeNodes
+
+    def message(m)
+      puts "===> #{m}".yellow
     end
 
-    def self.connect_to_all(command)
-  		EncodeNodes.encoders.each do |node|
-        message "Connecting to #{node[1][:ip]}...".blue
+    def connect_to_all(command)
+      status = []
 
-        Net::SSH.start(node[1][:ip], node[1][:user], :password => node[1][:pass]) do |ssh|
+  		self.encoders.each do |node|
+        message "Connecting to #{node[1].ip}...".blue
+
+        Net::SSH.start(node[1].ip, node[1].user, :password => node[1].pass) do |ssh|
     			message "Logged in to #{ssh.exec!('hostname')}".blue
-    			message "#{ssh.exec!(command)}".green
+          s = ssh.exec!(command)
+          status << {node.first => s}
+    			message "#{s}".green
     			message "Logging out of #{ssh.exec!('hostname')}".blue
     		end
   		end
+
+      # {:master=>["995", "1100"]}{:node1=>["1003", "1077"]}{:node2=>["997", "1116"]}{:node3=>["992", "1077"]}
+      status
   	end
 
-  	def self.connect_to(name, command)
-  		node = EncodeNodes.encoders[name.to_sym]
+  	def connect_to(name, command)
+  		node = self.encoders[name.to_sym]
+      status = ''
 
-      message "Connecting to #{node[:ip]}...".blue
+      message "Connecting to #{node.ip}...".blue
 
-      Net::SSH.start(node[:ip], node[:user], :password => node[:pass]) do |ssh|
+      Net::SSH.start(node.ip, node.user, :password => node.pass) do |ssh|
   			message "Logged in to #{ssh.exec!('hostname')}".blue
-  			message "#{ssh.exec!(command)}".green
+        status = ssh.exec!(command)
+  			message "#{status}".green
   			message "Logging out of #{ssh.exec!('hostname')}".blue
   		end
+
+      status
   	end
 
-    def self.transfer_to(name, local_path='testsrc1.mpg', remote_path='/home/vagrant/input')
-      node = EncodeNodes.encoders[name.to_sym]
-      progressbar = ProgressBar.create(title: 'TRANSFER ===>', length: 100, format: "%t |%B| %P%%",:progress_mark  => '#')
-      Net::SCP.upload!(node[:ip], node[:user], local_path, remote_path) do |ch, name, sent, total|
-        progressbar.progress = sent.fdiv(total) * 100
-      end
-    end
-
-    def self.transfer_to_output(name, remote_path='output/testsrc.mov', local_path="#{`pwd`.strip}/output/testsrc.mov")
-      node = EncodeNodes.encoders[name.to_sym]
-      progressbar = ProgressBar.create(title: 'TRANSFER ===>', length: 100, format: "%t: |%B| %P%%", :progress_mark  => '#')
-      Net::SCP.download!(node[:ip], node[:user], remote_path, local_path) do |ch, name, sent, total|
+    def transfer_to(name, local_path='testsrc1.mpg', remote_path='/home/vagrant/input')
+      node = self.encoders[name.to_sym]
+      progressbar = ProgressBar.create(title: "#{name}: TRANSFER ===>", length: 100, format: "%t |%B| %P%%",:progress_mark  => '#')
+      Net::SCP.upload!(node.ip, node.user, local_path, remote_path) do |ch, name, sent, total|
         progressbar.progress = sent.fdiv(total) * 100
       end
 
+      # 100.0
+      progressbar.progress
     end
 
-    def self.run_command(name, command)
-      node = EncodeNodes.encoders[name.to_sym]
-      Net::SSH.start(node[:ip], node[:user], :password => node[:password]) do |ssh|
+    def transfer_to_output(name, remote_path='output/testsrc.mov', local_path="#{`pwd`.strip}/")
+      node = self.encoders[name.to_sym]
+      progressbar = ProgressBar.create(title: "#{name}: TRANSFER ===>", length: 100, format: "%t: |%B| %P%%", :progress_mark  => '#')
+      Net::SCP.download!(node.ip, node.user, remote_path, "#{local_path}#{remote_path}") do |ch, name, sent, total|
+        progressbar.progress = sent.fdiv(total) * 100
+      end
+
+      # 100.0
+      progressbar.progress
+    end
+
+    def run_command(name, command)
+      node = self.encoders[name.to_sym]
+      Net::SSH.start(node.ip, node.user, :password => node.pass) do |ssh|
         channel = ssh.open_channel do |ch|
           ch.exec command do |ch, success|
             raise "could not execute command" unless success
@@ -68,9 +88,10 @@ module VE
             # ch.on_close { puts "done!" }
           end
         end
-
         channel.wait
       end
+
+      "COMMAND: #{command}"
     end
   end
 end

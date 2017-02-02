@@ -3,6 +3,14 @@
   file: path=/home/vagrant/ffmpeg_build state=directory
 - name: ffmpeg_sources
   file: path=/home/vagrant/ffmpeg_sources state=directory
+- name: input
+  file: path=/home/vagrant/input state=directory
+  tags:
+    - input
+- name: output
+  file: path=/home/vagrant/output state=directory
+  tags:
+    - output
 
 # https://trac.ffmpeg.org/wiki/CompilationGuide/Ubuntu
 - name: yasm
