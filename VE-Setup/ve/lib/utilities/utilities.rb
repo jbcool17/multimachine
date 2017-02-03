@@ -30,7 +30,6 @@ module RelationshipOfCommand
     			message name, "#{s}".green
     			message name, "Logging out of #{ssh.exec!('hostname')}".strip.blue
     		end
-        
         message name, " "
   		end
 
@@ -83,6 +82,7 @@ module RelationshipOfCommand
       node = self.encoders[name.to_sym]
       Net::SSH.start(node.ip, node.user, :password => node.pass) do |ssh|
         channel = ssh.open_channel do |ch|
+          message name, "Running command: #{command}".strip.blue
           ch.exec command do |ch, success|
             raise "could not execute command" unless success
 

@@ -15,7 +15,7 @@ module RelationshipOfCommand
       @jobs = []
   	end
 
-    def running_jobs
+    def running_jobs(input='testsrc.mpg', output='testsrc.mov')
       status = self.check_for_processes 'ffmpeg'
 
       job_number = set_job_number
@@ -25,7 +25,7 @@ module RelationshipOfCommand
         name = node[0]
         if node[1]
           self.message name, "Starting job# #{job_number} on #{name}..."
-          convert name, 'testsrc.mpg', "#{job_number}_#{name}_testsrc.mov"
+          convert name, input, "#{job_number}_#{name}_#{output}"
           self.message name, "Job# #{job_number} has been completed on #{name}..."
           break
         else
@@ -35,9 +35,9 @@ module RelationshipOfCommand
 
     end
 
-    def convert(name, input_file, output_file)
+    def convert(name, input_file, output_file, options='')
       self.transfer_to name, input_file
-      self.connect_to name, "~/bin/ffmpeg -ss 00:00:00.000 -i input/#{input_file} -t 60 output/#{output_file}"
+      self.run_command name, "~/bin/ffmpeg -v quiet -stats -i input/#{input_file} #{options} output/#{output_file}"
       self.transfer_to_output name, "output/#{output_file}"
       self.connect_to name, "rm ~/output/#{output_file}"
     end

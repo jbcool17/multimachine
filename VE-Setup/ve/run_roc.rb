@@ -22,6 +22,6 @@ end
 puts "JOBS: #{m.jobs}"
 t0.join
 t1.join
-t2.join
-t3.join
+# t2.join
+# t3.join
 puts "JOBS: #{m.jobs}"
