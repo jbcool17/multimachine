@@ -14,4 +14,8 @@ when 'status'
   mm.status
 else
   puts 'Don\'t know that one'
+  puts 'Try:'
+  puts './mm start_all'
+  puts './mm stop_all'
+  puts './mm status'
 end

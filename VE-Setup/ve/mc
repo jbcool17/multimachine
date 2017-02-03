@@ -13,4 +13,6 @@ when 'running_jobs'
   mc.running_jobs input, output
 else
   puts 'Don\'t know that one'
+  puts 'Try: '
+  puts './mc running_jobs test.mpg, test.mov'
 end

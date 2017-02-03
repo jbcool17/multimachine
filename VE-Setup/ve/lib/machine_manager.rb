@@ -7,10 +7,10 @@ module RelationshipOfCommand
 
   	def start_all
       if status
-        self.message 'Starting up machines...'
+        self.message 'MachineManager:', 'Starting up machines...'
         `cd ../ && vagrant up`
       else
-        self.message "Vagrant Machines are already running..."
+        self.message 'MachineManager:', "Vagrant Machines are already running..."
       end
     end
 
@@ -20,17 +20,20 @@ module RelationshipOfCommand
 
     def stop_all
       if !status
-        self.message 'Stopping machines...'
+        self.message 'MachineManager:', 'Stopping machines...'
         `cd ../ && vagrant halt`
       else
-        self.message "Vagrant Machines are already shutdown..."
+        self.message 'MachineManager:', "Vagrant Machines are already shutdown..."
       end
     end
 
     def status
       c = `cd ../ && vagrant status | grep running`
-      self.message 'Vagrant STATUS:'
-      self.message 'All Machines Stopped' if c.empty?
+      if c.empty?
+        self.message 'MachineManager:', 'All Machines Stopped.'
+      else
+        self.message 'MachineManager:', 'All Machines Running.'
+      end
 
       c.empty?
     end
