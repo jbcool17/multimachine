@@ -2,13 +2,17 @@ require 'net/ssh'
 require 'net/scp'
 require 'colorize'
 require_relative '../encode_nodes'
+require 'ruby-progressbar'
 
 module RelationshipOfCommand
   module Utilities
     include RelationshipOfCommand::EncodeNodes
 
     def message(m)
-      puts "===> #{m}".yellow
+      output = "===> #{m}"
+      puts output
+
+      return output
     end
 
     def connect_to_all(command)

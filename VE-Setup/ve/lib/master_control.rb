@@ -1,4 +1,3 @@
-require 'ruby-progressbar'
 require_relative 'utilities/utilities'
 require_relative 'process_manager'
 require_relative 'encode_nodes'

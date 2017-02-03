@@ -30,7 +30,8 @@ module RelationshipOfCommand
     def status
       c = `cd ../ && vagrant status | grep running`
       self.message 'Vagrant STATUS:'
-      self.message c
+      self.message 'All Machines Stopped' if c.empty?
+
       c.empty?
     end
 
