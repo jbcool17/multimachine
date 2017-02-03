@@ -8,8 +8,8 @@ module RelationshipOfCommand
   module Utilities
     include RelationshipOfCommand::EncodeNodes
 
-    def message(m)
-      output = "===> #{m}"
+    def message(node, m)
+      output = "#{node} ===> #{m}"
       puts output
 
       return output
@@ -19,15 +19,19 @@ module RelationshipOfCommand
       status = []
 
   		self.encoders.each do |node|
-        message "Connecting to #{node[1].ip}...".blue
+        name = node[0]
+        message name, "Connecting to #{node[1].ip}...".blue
 
         Net::SSH.start(node[1].ip, node[1].user, :password => node[1].pass) do |ssh|
-    			message "Logged in to #{ssh.exec!('hostname')}".blue
+    			message name, "Logged in to #{ssh.exec!('hostname')}".strip.blue
+          message name, "Running command: #{command}".strip.blue
           s = ssh.exec!(command)
           status << {node.first => s}
-    			message "#{s}".green
-    			message "Logging out of #{ssh.exec!('hostname')}".blue
+    			message name, "#{s}".green
+    			message name, "Logging out of #{ssh.exec!('hostname')}".strip.blue
     		end
+        
+        message name, " "
   		end
 
       # {:master=>["995", "1100"]}{:node1=>["1003", "1077"]}{:node2=>["997", "1116"]}{:node3=>["992", "1077"]}
@@ -38,14 +42,17 @@ module RelationshipOfCommand
   		node = self.encoders[name.to_sym]
       status = ''
 
-      message "Connecting to #{node.ip}...".blue
+      message name, "Connecting to #{node.ip}...".blue
 
       Net::SSH.start(node.ip, node.user, :password => node.pass) do |ssh|
-  			message "Logged in to #{ssh.exec!('hostname')}".blue
+  			message name, "Logged in to #{ssh.exec!('hostname')}".strip.blue
+        message name, "Running command: #{command}".strip.blue
         status = ssh.exec!(command)
-  			message "#{status}".green
-  			message "Logging out of #{ssh.exec!('hostname')}".blue
+  			message name, "#{status}".strip.green
+  			message name, "Logging out of #{ssh.exec!('hostname')}".strip.blue
   		end
+
+      message name, " "
 
       status
   	end

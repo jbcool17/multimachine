@@ -19,16 +19,17 @@ module RelationshipOfCommand
       status = self.check_for_processes 'ffmpeg'
 
       job_number = set_job_number
-      self.message "Job Number set to: #{job_number}"
+      self.message 'Master', "Job Number set to: #{job_number}"
 
       status.each do |node|
+        name = node[0]
         if node[1]
-          self.message "JOBS: Starting job on #{node[0]}..."
-          convert node[0], 'testsrc.mpg', "#{job_number}_#{node[0]}_testsrc.mov"
-          self.message "JOBS: Job has been completed on #{node[0]}..."
+          self.message name, "Starting job# #{job_number} on #{name}..."
+          convert name, 'testsrc.mpg', "#{job_number}_#{name}_testsrc.mov"
+          self.message name, "Job# #{job_number} has been completed on #{name}..."
           break
         else
-          puts 'do not run on me'
+          self.message name, "Processe(s) running. Try again later."
         end
       end
 
@@ -36,9 +37,9 @@ module RelationshipOfCommand
 
     def convert(name, input_file, output_file)
       self.transfer_to name, input_file
-      self.run_command name, "~/bin/ffmpeg -ss 00:00:00.000 -i input/#{input_file} -t 60 output/#{output_file}"
+      self.connect_to name, "~/bin/ffmpeg -ss 00:00:00.000 -i input/#{input_file} -t 60 output/#{output_file}"
       self.transfer_to_output name, "output/#{output_file}"
-      self.run_command name, "rm ~/output/#{output_file}"
+      self.connect_to name, "rm ~/output/#{output_file}"
     end
 
   	def check_machines
