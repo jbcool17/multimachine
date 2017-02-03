@@ -1,0 +1,17 @@
+#!/usr/bin/env ruby
+
+require_relative 'lib/machine_manager'
+
+mm = RelationshipOfCommand::MachineManager.new
+choice = ARGV[0]
+
+case choice
+when 'start_all'
+  mm.start_all
+when 'stop_all'
+  mm.stop_all
+when 'status'
+  mm.status
+else
+  puts 'Don\'t know that one'
+end

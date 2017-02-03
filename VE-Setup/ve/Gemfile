@@ -4,3 +4,10 @@ gem 'net-ssh'
 gem 'dotenv'
 gem 'ruby-progressbar'
 gem 'rspec'
+
+
+# Server Testing
+# http://serverspec.org/
+# gem 'serverspec'
+
+# Thor CommandLineInterface
