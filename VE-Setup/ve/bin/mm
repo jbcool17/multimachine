@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require_relative 'lib/machine_manager'
+require_relative '../lib/machine_manager'
 
 mm = RelationshipOfCommand::MachineManager.new
 choice = ARGV[0]
@@ -12,6 +12,8 @@ when 'stop_all'
   mm.stop_all
 when 'status'
   mm.status
+when 'reload_all'
+  mm.reload_all
 else
   puts 'Don\'t know that one'
   puts 'Try:'

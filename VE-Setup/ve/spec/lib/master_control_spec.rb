@@ -1,10 +1,9 @@
-require_relative '../../../lib/utilities/utilities'
+require_relative '../../../lib/master_control'
 
-describe 'Utilities Module' do
+describe 'MasterControl' do
   # let(:dummy_class) { Class.new { include ModuleToBeTested } }
   before(:each) do
-    @utility = Class.new
-    @utility.extend(RelationshipOfCommand::Utilities)
+    @mc = MasterControl.new
   end
 
   context 'Message Output' do

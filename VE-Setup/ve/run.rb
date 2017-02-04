@@ -18,13 +18,22 @@ mm = RelationshipOfCommand::MachineManager.new
 # VE::Utilities.connect_to_all "df -h"
 # VE::Utilities.connect_to 'node1', "pgrep -f docker"
 
-m = RelationshipOfCommand::MasterControl.new
-# puts "Checking Machines..."
-# m.check_machines
-# m.check_machine 'node2'
-# puts "Starting Convert..."
-m.running_jobs
-# m.convert 'node1', 'testsrc.mpg', 'testsrc.mov'
+mc = RelationshipOfCommand::MasterControl.new
+puts "RDY: #{mc.jobs_rdy}"
+puts "PRO: #{mc.jobs_progress}"
+puts "COMP: #{mc.jobs_complete}"
+mc.create_job 'testsrc.mpg', 'jobs_out.mov'
+mc.create_job 'testsrc.mpg', 'jobs_out1.mov'
+mc.create_job 'testsrc.mpg', 'jobs_out2.mov'
+mc.create_job 'testsrc.mpg', 'jobs_out3.mov'
+puts "RDY: #{mc.jobs_rdy}"
+puts "PRO: #{mc.jobs_progress}"
+puts "COMP: #{mc.jobs_complete}"
+mc.run_jobs
+
+mc.jobs_rdy.each { |j| puts "RDY: #{j.number}" }
+mc.jobs_progress.each { |j| puts "PRO: #{j.number}" }
+mc.jobs_complete.each { |j| puts "COMP: #{j.number}" }
 
 
 
