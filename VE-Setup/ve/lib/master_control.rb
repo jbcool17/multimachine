@@ -31,27 +31,44 @@ module RelationshipOfCommand
 
     def run_jobs
       threads = []
-      # jobs_rdy = @jobs_rdy
+
       self.message 'Master', 'Checking Nodes Status...'
       nodes_status = self.check_for_processes 'ffmpeg'
 
+      count = 0
       @jobs_rdy.each_with_index do |job, i|
-        puts "#{job} - #{i}"
-          name = nodes_status.to_a[i][0]
-            # @jobs_progress << job
-            # @jobs_rdy.delete_at(i)
+        count = 0 if count == nodes_status.count
 
-            self.message name, "Starting job# #{job.number} on #{name}..."
-            threads << Thread.new do
-              sleep 5
-              convert name, job.input_file, "#{job.number}_#{name}_#{job.output_file}"
-            end
+        # if !nodes_status.to_a[count][1]
+        #   status = true
+        #   while status
+        #     puts "Checking"
+        #     nodes_status = self.check_for_processes 'ffmpeg'
+        #     nodes_status.each_with_index do |n, i|
+        #       puts "test #{n}"
+        #       if n.to_a[1]
+        #         count += 1
+        #         status = false
+        #       end
+        #     end
+        #     sleep 5
+        #   end
+        # end
+        name = nodes_status.to_a[count][0]
+        # @jobs_progress << job
+        # @jobs_rdy.delete_at(i)
 
-            self.message name, "Job# #{job.number} has been completed on #{name}..."
+        self.message name, "Starting job# #{job.number} on #{name}..."
+        threads << Thread.new do
+          sleep 5
+          convert name, job.input_file, "#{job.number}_#{name}_#{job.output_file}"
+          self.message name, "Job# #{job.number} has been completed on #{name}..."
+        end
 
-            # Change job state
-            # @jobs_complete << job
-            # @jobs_progress.delete_at(@jobs_progress.index(job))
+        # Change job state
+        # @jobs_complete << job
+        # @jobs_progress.delete_at(@jobs_progress.index(job))
+        count += 1
       end
 
       threads.each(&:join)
@@ -59,44 +76,6 @@ module RelationshipOfCommand
       # @jobs_progress = []
       # @jobs_complete
     end
-
-    # def run_jobs_old
-    #   threads = []
-    #   @jobs_rdy.each do |job|
-    #     self.message 'Master', 'Checking Nodes Status...'
-    #     nodes_status = self.check_for_processes 'ffmpeg'
-    #
-    #
-    #     nodes_status.each_with_index do |node, i|
-    #       name = node[0]
-    #       if node[1]
-    #         # Change job state
-    #         @jobs_progress << job
-    #         @jobs_rdy.delete(i)
-    #
-    #         self.message name, "Starting job# #{job.number} on #{name}..."
-    #         threads << Thread.new do
-    #           sleep 10
-    #           convert name, job.input_file, "#{job.number}_#{name}_#{job.output_file}"
-    #
-    #         end
-    #
-    #         self.message name, "Job# #{job.number} has been completed on #{name}..."
-    #
-    #         # Change job state
-    #         @jobs_complete << job
-    #         @jobs_progress.delete(@jobs_progress.index(job))
-    #         break
-    #       else
-    #         self.message name, "Processe(s) running on #{name}. Try again later."
-    #       end
-    #     end
-    #   end
-    #
-    #   threads.each(&:join)
-    #
-    #   @jobs_complete
-    # end
 
     def convert(name, input_file, output_file, options='-t 30')
       self.transfer_to name, input_file

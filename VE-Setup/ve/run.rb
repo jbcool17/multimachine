@@ -4,28 +4,17 @@ require_relative 'lib/process_manager'
 require_relative 'lib/machine_manager'
 
 puts 'starting'
-mm = RelationshipOfCommand::MachineManager.new
-# mm.start_all
-# mm.reload_all
-# VE::MachineManager.stop_all
-# puts 'stopping'
-# VE::Setup.stop_machines
-
-# VE::ProcessManager.check_all_docker_processes
-# VE::Utilities.connect_to 'node1', 'ps 1868 7882 7952 9711 9781'
-# pm = RelationshipOfCommand::ProcessManager.new
-# pm.check_for_processes 'ffmpeg'
-# VE::Utilities.connect_to_all "df -h"
-# VE::Utilities.connect_to 'node1', "pgrep -f docker"
-
 mc = RelationshipOfCommand::MasterControl.new
-puts "RDY: #{mc.jobs_rdy}"
-puts "PRO: #{mc.jobs_progress}"
-puts "COMP: #{mc.jobs_complete}"
-mc.create_job 'testsrc.mpg', 'jobs_out.mov'
+# 2 per node
+mc.create_job 'testsrc.mpg', 'jobs_out0.mov'
 mc.create_job 'testsrc.mpg', 'jobs_out1.mov'
 mc.create_job 'testsrc.mpg', 'jobs_out2.mov'
 mc.create_job 'testsrc.mpg', 'jobs_out3.mov'
+mc.create_job 'testsrc.mpg', 'jobs_out4.mov'
+mc.create_job 'testsrc.mpg', 'jobs_out5.mov'
+mc.create_job 'testsrc.mpg', 'jobs_out6.mov'
+mc.create_job 'testsrc.mpg', 'jobs_out7.mov'
+
 puts "RDY: #{mc.jobs_rdy}"
 puts "PRO: #{mc.jobs_progress}"
 puts "COMP: #{mc.jobs_complete}"

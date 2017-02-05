@@ -7,10 +7,13 @@ mc = RelationshipOfCommand::MasterControl.new
 choice, input, output = ARGV[0], ARGV[1], ARGV[2]
 
 case choice
-when 'run_job'
-  mc.run_job input, output
+# when 'run_jobs'
+  # mc.run_jobs
+when 'convert'
+  mc.create_job input, output
+  mc.run_jobs
 else
   puts 'Don\'t know that one'
   puts 'Try: '
-  puts './mc run_job test.mpg test.mov'
+  puts 'bin/mc convert testsrc.mpg testsrc.mov'
 end
