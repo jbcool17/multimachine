@@ -10,7 +10,7 @@ module RelationshipOfCommand
 			n2 = RelationshipOfCommand::Node.new("192.168.56.112", ENV['ROC_NODE_USER'], ENV['ROC_NODE_PASS'])
 			n3 = RelationshipOfCommand::Node.new("192.168.56.113", ENV['ROC_NODE_USER'], ENV['ROC_NODE_PASS'])
 
-			return { master: m, node1: n1, node2: n2, node3: n3 }
+			return { node1: n1, node2: n2, node3: n3 }
 		end
 	end
 end

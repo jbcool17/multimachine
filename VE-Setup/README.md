@@ -1,6 +1,12 @@
-```
 # FFMPEG ENCODING CLUSTER
-```
+- still in testing stages...
+
+## Requirements
+- vagrant & ansible for master/nodes development setup
+  - ```vagrant up```
+  - ```ansible-playbook provision.yml```
+
+- ruby 2.3.1
 
 
 ## MachineManager
