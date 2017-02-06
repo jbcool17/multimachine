@@ -24,12 +24,6 @@ module RelationshipOfCommand
       out
     end
 
-    # def change_status(status)
-    #   db = SQLite3::Database.new "db/test.db"
-    #
-    #   db.execute("UPDATE jobs SET status=\'#{status}\' WHERE job_number=#{self.number};")
-    # end
-
     private
 
     def add_to_db(job_number, input_file, output_file, status, options, node='')
@@ -37,22 +31,7 @@ module RelationshipOfCommand
 
       db.execute("INSERT INTO jobs (job_number, input_file, output_file, options, status, node)
             VALUES (?, ?, ?, ?, ?, ?)", [job_number, input_file, output_file, options, status, node])
-      # db.execute <<-SQL
-      #   create table jobs (
-      #     job_number int,
-      #     input_file varchar(50),
-      #     output_file varchar(50),
-      #     options varchar(50),
-      #     status varchar(50),
-      #     node varchar(50)
-      #   );
-      # SQL
-      out = {}
-      db.execute( "select * from jobs" ) do |row|
-        out[row[0]] = [row[1], row[2], row[3], row[4]]
-      end
 
-      out
     end
 
   end

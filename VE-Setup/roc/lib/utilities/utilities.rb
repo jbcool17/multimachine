@@ -16,6 +16,10 @@ module RelationshipOfCommand
       return output
     end
 
+    #----------------------------------------------------
+    # DATABASE
+    #----------------------------------------------------
+
     def delete_all_rows
       db = SQLite3::Database.new "db/test.db"
       db.execute("DELETE FROM jobs;")
@@ -51,6 +55,24 @@ module RelationshipOfCommand
       db.execute("UPDATE jobs SET status=\'#{status}\' WHERE job_number=#{job_number};")
       db.execute("UPDATE jobs SET node=\'#{node}\' WHERE job_number=#{job_number};")
     end
+
+    def create_jobs_table
+      db = SQLite3::Database.new "db/test.db"
+      db.execute <<-SQL
+        create table jobs (
+          job_number int,
+          input_file varchar(50),
+          output_file varchar(50),
+          options varchar(50),
+          status varchar(50),
+          node varchar(50)
+        );
+      SQL
+    end
+
+    #----------------------------------------------------
+    # SSH/SCP
+    #----------------------------------------------------
 
     def connect_to_all(command)
       status = []

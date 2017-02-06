@@ -44,5 +44,5 @@ bin/mc convert testsrc.mpg testsrc.mov options
 bin/mc jobs - Lists all jobs
 
 # Run Daemon
-bin/mc run_daemon
+bin/mc run_daemon - not ready - use 'ruby run_daemon.rb'
 ```

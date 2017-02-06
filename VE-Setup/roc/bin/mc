@@ -18,7 +18,10 @@ when 'submit_job'
 when 'jobs'
   mc.get_jobs
 when 'run_daemon'
-  `ruby run_daemon.rb`
+  puts 'Not ready...'
+  # `ruby run_daemon.rb`
+when 'clear_jobs'
+  mc.clear_jobs
 else
   puts 'Don\'t know that one'
   puts 'Try: '

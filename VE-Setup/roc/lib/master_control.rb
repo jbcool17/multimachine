@@ -15,7 +15,14 @@ module RelationshipOfCommand
   	def initialize
   		@status = ''
       @job_numbers = []
+      Struct.new('Job', :number, :input_file, :output_file, :options, :status, :node)
   	end
+
+    def clear_jobs
+      self.message 'Master', 'Clearing jobs...'
+      self.delete_all_rows
+      self.message 'Master', 'Complete'
+    end
 
     def create_job(input_file, output_file, options='')
       job = RelationshipOfCommand::Job.new(set_job_number, input_file, output_file, options)
@@ -33,8 +40,6 @@ module RelationshipOfCommand
 
     def run_jobs
       threads = []
-
-      Struct.new('Job', :number, :input_file, :output_file, :options, :status, :node)
 
       self.message 'Master', 'Checking Nodes Status...'
       nodes_status = self.check_for_processes 'ffmpeg'
