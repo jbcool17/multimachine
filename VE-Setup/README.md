@@ -7,7 +7,24 @@
   - ```ansible-playbook provision.yml```
 
 - ruby 2.3.1
+### .ENV
+- This uses the dotenv gem.
+- here is an example of the .env file needed.
 
+```
+# Enter User/Pass
+ROC_NODE_USER=vagrant
+ROC_NODE_PASS=vagrant
+
+# Enter IP Addresses
+ROC_NODE1=xxx.xxx.xx.xxx
+ROC_NODE2=xxx.xxx.xx.xxx
+ROC_NODE3=xxx.xxx.xx.xxx
+```
+
+### Nodes
+- Edit lib/encode_nodes.rb to add/remove Nodes.
+- will automate this in the future.
 
 ## MachineManager
 ```

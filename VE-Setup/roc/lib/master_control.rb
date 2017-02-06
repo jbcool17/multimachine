@@ -53,10 +53,8 @@ module RelationshipOfCommand
         self.message name, "Starting job# #{job.number} on #{name}..."
         threads << Thread.new do
           sleep 5
-          self.change_status(job.number, 'running', name)
-          convert name, job.input_file, "#{job.number}_#{name}_#{job.output_file}"
+          convert name, job.input_file, "#{job.number}_#{name}_#{job.output_file}", job_number
           self.message name, "Job# #{job.number} has been completed on #{name}..."
-          self.change_status(job.number, 'completed', name)
         end
 
         count += 1
@@ -66,10 +64,12 @@ module RelationshipOfCommand
 
     end
 
-    def convert(name, input_file, output_file, options='-t 30')
+    def convert(name, input_file, output_file, options='-t 30', job_number)
       self.transfer_to name, input_file
+      self.change_status(job_number, 'running', name)
       self.run_command name, "~/bin/ffmpeg -v quiet -stats -i input/#{input_file} #{options} output/#{output_file}"
       self.transfer_to_output name, "output/#{output_file}"
+      self.change_status(job_number, 'completed', name)
       self.connect_to name, "rm ~/output/#{output_file}"
     end
 
