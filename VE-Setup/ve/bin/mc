@@ -5,15 +5,25 @@ require_relative '../lib/master_control'
 
 mc = RelationshipOfCommand::MasterControl.new
 choice, input, output = ARGV[0], ARGV[1], ARGV[2]
+options = ARGV[3] || ''
 
 case choice
-# when 'run_jobs'
-  # mc.run_jobs
-when 'convert'
-  mc.create_job input, output
+when 'run_jobs'
   mc.run_jobs
+when 'convert'
+  mc.create_job input, output, options
+  mc.run_jobs
+when 'submit_job'
+  mc.create_job input, output, options
+when 'jobs'
+  mc.get_jobs
+when 'run_daemon'
+  `ruby run_daemon.rb`
 else
   puts 'Don\'t know that one'
   puts 'Try: '
-  puts 'bin/mc convert testsrc.mpg testsrc.mov'
+  puts 'bin/mc run_jobs - Runs jobs with ready status'
+  puts 'bin/mc convert testsrc.mpg testsrc.mov \'options\''
+  puts 'bin/mc submit_job testsrc.mpg testsrc.mov \'options\' - submit a job and set status to ready'
+  puts 'bin/mc jobs - Lists all jobs'
 end

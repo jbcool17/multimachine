@@ -6,17 +6,33 @@
 ## MachineManager
 ```
 # start all machines
-./mm start_all
+roc/bin/mm start_all
 
 # stop all machines
-./mm stop_all
+roc/bin/mm stop_all
 
 # get status of all machines
-./mm status
+roc/bin/mm status
+
+# Reload Machines
+roc/bin/mm reload_all
 ```
 
 ## MasterControl
+- place files in roc folder, can't parse paths from anywhere yet
 ```
-# run job
-./mc running_jobs test.mpg, test.mov
+# Submit Job to queue
+roc/bin/mc submit_job testsrc.mpg testsrc.mov options
+
+# Runs jobs with ready status
+roc/bin/mc run_jobs
+
+# Convert one off job
+roc/bin/mc convert testsrc.mpg testsrc.mov options
+
+# List Jobs
+roc/bin/mc jobs - Lists all jobs
+
+# Run Daemon
+roc/bin/mc run_daemon
 ```
