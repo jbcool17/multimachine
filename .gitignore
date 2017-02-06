@@ -10,3 +10,4 @@ notes.txt
 .env
 tasks.txt
 *.sql
+*.wav
