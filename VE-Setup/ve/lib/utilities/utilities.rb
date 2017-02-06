@@ -3,16 +3,43 @@ require 'net/scp'
 require 'colorize'
 require_relative '../encode_nodes'
 require 'ruby-progressbar'
+require 'sqlite3'
 
 module RelationshipOfCommand
   module Utilities
     include RelationshipOfCommand::EncodeNodes
 
     def message(node, m)
-      output = "#{node} ===> #{m}"
+      output = "#{node}: ===> #{m}"
       puts output
 
       return output
+    end
+
+    def delete_all_rows
+      db = SQLite3::Database.new "db/test.db"
+      db.execute("DELETE FROM jobs;")
+    end
+
+    def get_jobs_in_ready
+      out = {}
+      db = SQLite3::Database.new "db/test.db"
+      db.execute( "select * from jobs" ) do |row|
+        out[row[0]] = [row[1], row[2], row[3], row[4], row[5]]
+      end
+
+      out.select! do |k,v|
+        v[3] == 'ready'
+      end
+
+      out
+    end
+
+    def change_status(job_number, status, node)
+      db = SQLite3::Database.new "db/test.db"
+
+      db.execute("UPDATE jobs SET status=\'#{status}\' WHERE job_number=#{job_number};")
+      db.execute("UPDATE jobs SET node=\'#{node}\' WHERE job_number=#{job_number};")
     end
 
     def connect_to_all(command)

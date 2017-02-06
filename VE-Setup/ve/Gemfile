@@ -4,7 +4,7 @@ gem 'net-ssh'
 gem 'dotenv'
 gem 'ruby-progressbar'
 gem 'rspec'
-
+gem 'sqlite3'
 
 # Server Testing
 # http://serverspec.org/

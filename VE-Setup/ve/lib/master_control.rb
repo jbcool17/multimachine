@@ -9,22 +9,17 @@ module RelationshipOfCommand
     include RelationshipOfCommand::Utilities
     include RelationshipOfCommand::ProcessManager
 
-  	attr_accessor :status, :jobs_rdy, :jobs_complete, :jobs_progress
+  	attr_accessor :status
+    attr_reader :job_numbers
 
   	def initialize
   		@status = ''
-      @jobs_complete = []
-      @jobs_progress = []
-      @jobs_rdy = []
       @job_numbers = []
   	end
 
     def create_job(input_file, output_file, options='')
       job = RelationshipOfCommand::Job.new(set_job_number, input_file, output_file, options)
-
       self.message 'Master', "Job Number set to: #{job.number}"
-
-      @jobs_rdy << job
 
       job
     end
@@ -32,49 +27,31 @@ module RelationshipOfCommand
     def run_jobs
       threads = []
 
+      Struct.new('Job', :number, :input_file, :output_file, :options, :status, :node)
+
       self.message 'Master', 'Checking Nodes Status...'
       nodes_status = self.check_for_processes 'ffmpeg'
 
       count = 0
-      @jobs_rdy.each_with_index do |job, i|
+      get_jobs_in_ready.each do |job_number, v|
+        job = Struct::Job.new(job_number, v[0], v[1], v[2], v[3], v[4])
         count = 0 if count == nodes_status.count
-
-        # if !nodes_status.to_a[count][1]
-        #   status = true
-        #   while status
-        #     puts "Checking"
-        #     nodes_status = self.check_for_processes 'ffmpeg'
-        #     nodes_status.each_with_index do |n, i|
-        #       puts "test #{n}"
-        #       if n.to_a[1]
-        #         count += 1
-        #         status = false
-        #       end
-        #     end
-        #     sleep 5
-        #   end
-        # end
         name = nodes_status.to_a[count][0]
-        # @jobs_progress << job
-        # @jobs_rdy.delete_at(i)
 
         self.message name, "Starting job# #{job.number} on #{name}..."
         threads << Thread.new do
           sleep 5
+          self.change_status(job.number, 'running', name)
           convert name, job.input_file, "#{job.number}_#{name}_#{job.output_file}"
           self.message name, "Job# #{job.number} has been completed on #{name}..."
+          self.change_status(job.number, 'completed', name)
         end
 
-        # Change job state
-        # @jobs_complete << job
-        # @jobs_progress.delete_at(@jobs_progress.index(job))
         count += 1
       end
 
       threads.each(&:join)
-      # @jobs_rdy = []
-      # @jobs_progress = []
-      # @jobs_complete
+
     end
 
     def convert(name, input_file, output_file, options='-t 30')

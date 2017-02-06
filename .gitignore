@@ -9,3 +9,4 @@ notes.txt
 *.mp4
 .env
 tasks.txt
+*.sql

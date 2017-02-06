@@ -11,20 +11,11 @@ mc.create_job 'testsrc.mpg', 'jobs_out1.mov'
 mc.create_job 'testsrc.mpg', 'jobs_out2.mov'
 mc.create_job 'testsrc.mpg', 'jobs_out3.mov'
 mc.create_job 'testsrc.mpg', 'jobs_out4.mov'
-mc.create_job 'testsrc.mpg', 'jobs_out5.mov'
-mc.create_job 'testsrc.mpg', 'jobs_out6.mov'
-mc.create_job 'testsrc.mpg', 'jobs_out7.mov'
+# mc.create_job 'testsrc.mpg', 'jobs_out5.mov'
+# mc.create_job 'testsrc.mpg', 'jobs_out6.mov'
+# mc.create_job 'testsrc.mpg', 'jobs_out7.mov'
 
-puts "RDY: #{mc.jobs_rdy}"
-puts "PRO: #{mc.jobs_progress}"
-puts "COMP: #{mc.jobs_complete}"
 mc.run_jobs
-
-mc.jobs_rdy.each { |j| puts "RDY: #{j.number}" }
-mc.jobs_progress.each { |j| puts "PRO: #{j.number}" }
-mc.jobs_complete.each { |j| puts "COMP: #{j.number}" }
-
-
 
 puts "Script over"
 # m.transfer_to 'node1', 'testsrc.mpg'
