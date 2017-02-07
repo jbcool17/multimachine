@@ -7,7 +7,7 @@
     - common
     - ffmpeg
   tags:
-    - init-setup
+    - node-setup
 
 - name: Configure master
   hosts: master

@@ -15,9 +15,6 @@ Vagrant.configure("2") do |config|
     subconfig.vm.hostname = "#{MACHINES[0]}"
     subconfig.vm.network :private_network, ip: "#{IP_ADDRESS_START}"
     config.vm.synced_folder "./jobs", "/home/vagrant/jobs", type: "nfs"
-    subconfig.vm.provision "ansible" do |ansible|
-      ansible.playbook = "server-setup-ansible/provision.yml"
-    end
   end
 
   (1..NODE_COUNT).each do |i|
@@ -25,10 +22,6 @@ Vagrant.configure("2") do |config|
       subconfig.vm.box = BOX_IMAGE # change light weight box
       subconfig.vm.hostname = "#{MACHINES[i]}"
       subconfig.vm.network :private_network, ip: "192.168.56.#{i + 110}"
-
-      subconfig.vm.provision "ansible" do |ansible|
-        ansible.playbook = "server-setup-ansible/provision.yml"
-      end
     end
   end
 
