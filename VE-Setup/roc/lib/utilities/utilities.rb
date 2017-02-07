@@ -126,7 +126,7 @@ module RelationshipOfCommand
       progressbar.progress
     end
 
-    def transfer_to_output(name, remote_path='output/testsrc.mov', local_path="#{`pwd`.strip}/")
+    def transfer_to_output(name, remote_path='output/testsrc.mov', local_path="./")
       node = self.encoders[name.to_sym]
       progressbar = ProgressBar.create(title: "#{name}: TRANSFER ===>", length: 100, format: "%t: |%B| %P%%", :progress_mark  => '#')
       puts "#{local_path}#{remote_path}"
