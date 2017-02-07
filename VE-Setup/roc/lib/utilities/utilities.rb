@@ -129,6 +129,7 @@ module RelationshipOfCommand
     def transfer_to_output(name, remote_path='output/testsrc.mov', local_path="#{`pwd`.strip}/")
       node = self.encoders[name.to_sym]
       progressbar = ProgressBar.create(title: "#{name}: TRANSFER ===>", length: 100, format: "%t: |%B| %P%%", :progress_mark  => '#')
+      puts "#{local_path}#{remote_path}"
       Net::SCP.download!(node.ip, node.user, remote_path, "#{local_path}#{remote_path}", :ssh => { :password => node.pass }) do |ch, name, sent, total|
         progressbar.progress = sent.fdiv(total) * 100
       end
