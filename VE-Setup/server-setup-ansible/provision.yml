@@ -8,3 +8,16 @@
     - ffmpeg
   tags:
     - init-setup
+
+- name: Configure master
+  hosts: master
+  user: 'vagrant'
+  vars:
+    rvm1_rubies: ['ruby-2.3.1']
+    rvm1_user: 'vagrant'
+  roles:
+    - common
+    - rvm_io.ruby
+    - master
+  tags:
+    - master-setup
