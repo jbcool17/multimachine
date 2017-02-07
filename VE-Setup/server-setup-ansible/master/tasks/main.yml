@@ -10,6 +10,6 @@
 
 # https://trac.ffmpeg.org/wiki/CompilationGuide/Ubuntu
 - name: script
-  script: ffmpeg/scripts/script.sh
+  script: master/scripts/script.sh
   tags:
     - script
