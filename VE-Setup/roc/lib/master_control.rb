@@ -68,7 +68,7 @@ module RelationshipOfCommand
       self.transfer_to name, input_file
       self.change_status(job_number, 'running', name)
       self.run_command name, "~/bin/ffmpeg -v quiet -stats -i input/#{input_file} #{options} output/#{output_file}"
-      self.transfer_to_output name, "output/#{output_file}"
+      self.transfer_to_output name, output_file
       self.change_status(job_number, 'completed', name)
       # self.connect_to name, "rm ~/output/#{output_file}"
     end
