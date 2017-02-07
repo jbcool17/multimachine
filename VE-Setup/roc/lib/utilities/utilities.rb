@@ -115,8 +115,8 @@ module RelationshipOfCommand
       status
   	end
 
-    def transfer_to(name, local_file='home/vagrant/testsrc.mpg', remote_path='/home/vagrant/input')
-      local_path = "/home/vagrant/#{local_file}"
+    def transfer_to(name, local_file='testsrc.mpg', remote_path='/home/vagrant/input')
+      local_path = "/home/vagrant/input/#{local_file}"
       node = self.encoders[name.to_sym]
       progressbar = ProgressBar.create(title: "#{name}: TRANSFER ===>", length: 100, format: "%t |%B| %P%%",:progress_mark  => '#')
       Net::SCP.upload!(node.ip, node.user, local_path, remote_path, :ssh => { :password => node.pass }) do |ch, name, sent, total|
