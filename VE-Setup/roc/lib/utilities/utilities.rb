@@ -115,7 +115,8 @@ module RelationshipOfCommand
       status
   	end
 
-    def transfer_to(name, local_path='testsrc1.mpg', remote_path='/home/vagrant/input')
+    def transfer_to(name, local_file='home/vagrant/testsrc.mpg', remote_path='/home/vagrant/input')
+      local_path = "/home/vagrant/#{local_file}"
       node = self.encoders[name.to_sym]
       progressbar = ProgressBar.create(title: "#{name}: TRANSFER ===>", length: 100, format: "%t |%B| %P%%",:progress_mark  => '#')
       Net::SCP.upload!(node.ip, node.user, local_path, remote_path, :ssh => { :password => node.pass }) do |ch, name, sent, total|
@@ -126,11 +127,12 @@ module RelationshipOfCommand
       progressbar.progress
     end
 
-    def transfer_to_output(name, remote_path='output/testsrc.mov', local_path="./")
+    def transfer_to_output(name, remote_file='testsrc.mov', local_path='/home/vagrant/output')
+      remote_path = "/home/vagrant/output/#{remote_file}"
       node = self.encoders[name.to_sym]
       progressbar = ProgressBar.create(title: "#{name}: TRANSFER ===>", length: 100, format: "%t: |%B| %P%%", :progress_mark  => '#')
-      puts "#{local_path}#{remote_path}"
-      Net::SCP.download!(node.ip, node.user, remote_path, "#{local_path}#{remote_path}", :ssh => { :password => node.pass }) do |ch, name, sent, total|
+
+      Net::SCP.download!(node.ip, node.user, remote_path, local_path, :ssh => { :password => node.pass }) do |ch, name, sent, total|
         progressbar.progress = sent.fdiv(total) * 100
       end
 

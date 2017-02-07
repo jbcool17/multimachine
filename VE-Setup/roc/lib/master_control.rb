@@ -70,7 +70,7 @@ module RelationshipOfCommand
       self.run_command name, "~/bin/ffmpeg -v quiet -stats -i input/#{input_file} #{options} output/#{output_file}"
       self.transfer_to_output name, "output/#{output_file}"
       self.change_status(job_number, 'completed', name)
-      self.connect_to name, "rm ~/output/#{output_file}"
+      # self.connect_to name, "rm ~/output/#{output_file}"
     end
 
   	def check_machines
