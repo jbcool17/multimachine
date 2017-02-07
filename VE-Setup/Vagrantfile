@@ -37,7 +37,12 @@ Vagrant.configure("2") do |config|
     SHELL
   end
 
-  config.vm.provision "docker" do |d|
-    d.pull_images "jrottenberg/ffmpeg"
+  config.vm.define "#{MACHINES[0]}" do |subconfig|
+    subconfig.vm.provision "ansible" do |ansible|
+      ansible.playbook = "server-setup-ansible/provision.yml"
+    end
   end
+  # config.vm.provision "docker" do |d|
+  #   d.pull_images "jrottenberg/ffmpeg"
+  # end
 end
